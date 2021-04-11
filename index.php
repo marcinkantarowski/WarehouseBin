@@ -54,16 +54,3 @@ echo $bin1->showStock();
 echo "bin2 stock:";
 echo $bin2->showStock();
 
-
-
-
-
-
-
-
-
-
-
-
-
-

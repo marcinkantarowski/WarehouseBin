@@ -4,7 +4,6 @@ require_once "Order.php";
 require_once "BinOrder.php";
 require_once "Bin.php";
 
-
 use PHPUnit\Framework\TestCase;
 
 class BinTest extends TestCase
@@ -15,9 +14,9 @@ class BinTest extends TestCase
         $bin = new Bin();
         $order = new Order(1, 10, 20);
         $bin->addOrder($order);
-        $this->assertEquals(1,$order->getId());
-        $this->assertEquals(10,$order->getQuantity());
-        $this->assertEquals(20,$order->getPrice());
+        $this->assertEquals(1, $order->getId());
+        $this->assertEquals(10, $order->getQuantity());
+        $this->assertEquals(20, $order->getPrice());
     }
 
     public function testSpoilOrder_spoiled_notspoiled(): void
@@ -32,17 +31,17 @@ class BinTest extends TestCase
 
         //act
         $bin->spoilOrder(1);
-        $actualspoiled=false;
-        $actualnotspoiled= false;
+        $actualspoiled = false;
+        $actualnotspoiled = false;
 
         foreach ($stock as $binorder) {
-            if ($binorder->getId() == 1) $actualspoiled=$binorder->getSpoiled();
-            if ($binorder->getId() == 2) $actualnotspoiled=$binorder->getSpoiled();
+            if ($binorder->getId() == 1) $actualspoiled = $binorder->getSpoiled();
+            if ($binorder->getId() == 2) $actualnotspoiled = $binorder->getSpoiled();
         }
 
         //assert
-        $this->assertEquals(true,$actualspoiled);
-        $this->assertEquals(false,$actualnotspoiled);
+        $this->assertEquals(true, $actualspoiled);
+        $this->assertEquals(false, $actualnotspoiled);
     }
 
     public function testCalculateTotalQuantity(): void
@@ -56,7 +55,7 @@ class BinTest extends TestCase
         $bin->addOrder($order2);
         $bin->addOrder($order3);
         $bin->addOrder($order4);
-        $this->assertEquals(28,$bin->calculateTotalQuantity());
+        $this->assertEquals(28, $bin->calculateTotalQuantity());
     }
 
     public function testcalculateTotalValue_Value_isFloat(): void
@@ -70,7 +69,7 @@ class BinTest extends TestCase
         $bin->addOrder($order2);
         $bin->addOrder($order3);
         $bin->addOrder($order4);
-        $this->assertEquals(33,$bin->calculateTotalValue());
+        $this->assertEquals(33, $bin->calculateTotalValue());
         $this->assertIsFloat($bin->calculateTotalValue());
     }
 
@@ -85,10 +84,10 @@ class BinTest extends TestCase
         $bin->addOrder($order2);
         $bin->addOrder($order3);
         $bin->addOrder($order4);
-        $bin->removeStock(3,'FIFO');
+        $bin->removeStock(3, 'FIFO');
 
-        $this->assertEquals(25,$bin->calculateTotalQuantity());
-        $this->assertEquals(500,$bin->calculateTotalValue());
+        $this->assertEquals(25, $bin->calculateTotalQuantity());
+        $this->assertEquals(500, $bin->calculateTotalValue());
     }
 
     public function testRemoveStock_LIFO_Qantity_Value(): void
@@ -102,9 +101,9 @@ class BinTest extends TestCase
         $bin->addOrder($order2);
         $bin->addOrder($order3);
         $bin->addOrder($order4);
-        $bin->removeStock(3,'LIFO');
-        $this->assertEquals(25,$bin->calculateTotalQuantity());
-        $this->assertEquals(465,$bin->calculateTotalValue());
+        $bin->removeStock(3, 'LIFO');
+        $this->assertEquals(25, $bin->calculateTotalQuantity());
+        $this->assertEquals(465, $bin->calculateTotalValue());
     }
 
     public function testMoveStock_FIFO_Quantity_Value(): void
@@ -119,12 +118,12 @@ class BinTest extends TestCase
         $bin->addOrder($order2);
         $bin->addOrder($order3);
         $bin->addOrder($order4);
-        $bin->moveStock(13,'FIFO',$bin2);
+        $bin->moveStock(13, 'FIFO', $bin2);
 
-        $this->assertEquals(15,$bin->calculateTotalQuantity());
-        $this->assertEquals(300,$bin->calculateTotalValue());
-        $this->assertEquals(13,$bin2->calculateTotalQuantity());
-        $this->assertEquals(225,$bin2->calculateTotalValue());
+        $this->assertEquals(15, $bin->calculateTotalQuantity());
+        $this->assertEquals(300, $bin->calculateTotalValue());
+        $this->assertEquals(13, $bin2->calculateTotalQuantity());
+        $this->assertEquals(225, $bin2->calculateTotalValue());
     }
 
     public function testMoveStock_LIFO_Quantity_Value(): void
@@ -139,12 +138,12 @@ class BinTest extends TestCase
         $bin->addOrder($order2);
         $bin->addOrder($order3);
         $bin->addOrder($order4);
-        $bin->moveStock(13,'LIFO',$bin2);
+        $bin->moveStock(13, 'LIFO', $bin2);
 
-        $this->assertEquals(15,$bin->calculateTotalQuantity());
-        $this->assertEquals(265,$bin->calculateTotalValue());
-        $this->assertEquals(13,$bin2->calculateTotalQuantity());
-        $this->assertEquals(260,$bin2->calculateTotalValue());
+        $this->assertEquals(15, $bin->calculateTotalQuantity());
+        $this->assertEquals(265, $bin->calculateTotalValue());
+        $this->assertEquals(13, $bin2->calculateTotalQuantity());
+        $this->assertEquals(260, $bin2->calculateTotalValue());
     }
 
     public function testCalculateValue_FIFO_LIFO_AVERAGE_isFloat(): void
@@ -156,9 +155,9 @@ class BinTest extends TestCase
         $bin->addOrder(new Order(4, 40, 22));
         $bin->addOrder(new Order(5, 10, 25));
 
-        $this->assertEquals(1630,$bin->calculateValue(35,'FIFO'));
-        $this->assertEquals(1330,$bin->calculateValue(35,'LIFO'));
-        $this->assertEquals(1452.2727272727,$bin->calculateValue(35,'AVERAGE'));
-        $this->assertIsFloat($bin->calculateValue(35,'LIFO'));
+        $this->assertEquals(1630, $bin->calculateValue(35, 'FIFO'));
+        $this->assertEquals(1330, $bin->calculateValue(35, 'LIFO'));
+        $this->assertEquals(1452.2727272727, $bin->calculateValue(35, 'AVERAGE'));
+        $this->assertIsFloat($bin->calculateValue(35, 'LIFO'));
     }
 }

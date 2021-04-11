@@ -86,5 +86,4 @@ class Order
         $this->spoiled = $spoiled;
     }
 
-
 }

@@ -122,31 +122,31 @@ class Bin
      */
     public function calculateValue(int $howmany, string $method): float
     {
-        if($method=="AVERAGE") {
+        if ($method == "AVERAGE") {
             $quantityinit = $this->calculateTotalQuantity();
             $valueinit = $this->calculateTotalValue();
             $averageprice = $valueinit / $quantityinit;
             $value = ($quantityinit - $howmany) * $averageprice;
         } else {
-        $stockarray = $this->copyValues(); //FIFO default
-        if ($method == "LIFO") $stockarray = array_reverse($this->copyValues());
-        $left = $howmany;
-        foreach ($stockarray as $i => $binorder) {
-            if ($binorder['quantity'] <= $left) {
-                $left = $left - $binorder['quantity'];
-                unset($stockarray[$i]);
-            } else {
-                if ($left > 0) {
-                    $stockarray[$i]['quantity'] = $binorder['quantity'] - $left;
-                    if ($left < $binorder['quantity']) $left = $left - $binorder['quantity'];
-                    else $left = 0;
+            $stockarray = $this->copyValues(); //FIFO default
+            if ($method == "LIFO") $stockarray = array_reverse($this->copyValues());
+            $left = $howmany;
+            foreach ($stockarray as $i => $binorder) {
+                if ($binorder['quantity'] <= $left) {
+                    $left = $left - $binorder['quantity'];
+                    unset($stockarray[$i]);
+                } else {
+                    if ($left > 0) {
+                        $stockarray[$i]['quantity'] = $binorder['quantity'] - $left;
+                        if ($left < $binorder['quantity']) $left = $left - $binorder['quantity'];
+                        else $left = 0;
+                    }
                 }
             }
-        }
-        $value = 0;
-        foreach ($stockarray as $binorder) {
-            $value += $binorder['quantity'] * $binorder['price'];
-        }
+            $value = 0;
+            foreach ($stockarray as $binorder) {
+                $value += $binorder['quantity'] * $binorder['price'];
+            }
         }
 
         return $value;
@@ -163,11 +163,11 @@ class Bin
         $fifovalue = $this->calculateValue($howmany, 'FIFO');
         $lifovalue = $this->calculateValue($howmany, 'LIFO');
 
-        $out = "The difference between calculating the stock value - Average, FIFO, LIFO<br>".
-                "After removing $howmany elements from the stock:<br>".
-                "AVERAGE VALUE: $averagevalue<br>".
-                "FIFO VALUE: $fifovalue<br>".
-                "LIFO VALUE: $lifovalue<br>";
+        $out = "The difference between calculating the stock value - Average, FIFO, LIFO<br>" .
+            "After removing $howmany elements from the stock:<br>" .
+            "AVERAGE VALUE: $averagevalue<br>" .
+            "FIFO VALUE: $fifovalue<br>" .
+            "LIFO VALUE: $lifovalue<br>";
 
         return $out;
     }
