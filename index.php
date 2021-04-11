@@ -4,7 +4,6 @@ require_once "Order.php";
 require_once "BinOrder.php";
 require_once "Bin.php";
 
-
 /**
  * creating 2 Bins - bin1 and bin2
  */
